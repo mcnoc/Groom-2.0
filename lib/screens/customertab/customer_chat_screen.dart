@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../utils/colors.dart';
-import 'customertab/customer_completed.dart';
-import 'customertab/in_progress.dart';
-import 'customertab/offers.dart';
+import '../../utils/colors.dart';
+import 'customer_chat_page.dart';
 
-class CustomerBookingScreen extends StatefulWidget {
-  const CustomerBookingScreen({super.key});
+class CustomerChatScreen extends StatefulWidget {
+  const CustomerChatScreen({super.key});
 
   @override
-  State<CustomerBookingScreen> createState() => _CustomerBookingScreenState();
+  State<CustomerChatScreen> createState() => _CustomerChatScreenState();
 }
 
-class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
+class _CustomerChatScreenState extends State<CustomerChatScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -22,13 +20,12 @@ class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
         return shouldPop ?? false;
       },
       child: DefaultTabController(
-        initialIndex: 1,
-        length: 3,
+        initialIndex: 0,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text("Appointments"),
-            bottom: TabBar(
+            title: TabBar(
               indicatorColor: mainBtnColor,
               labelColor: mainBtnColor,
               labelStyle: GoogleFonts.manrope(
@@ -42,19 +39,20 @@ class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
               ),
               tabs: <Widget>[
                 Tab(
-                  text: "In Progress",
+                  text: "Message",
                 ),
                 Tab(
-                  text: "Completed",
-                ),
-                Tab(
-                  text: "Offers",
+                  text: "Notification",
                 ),
               ],
             ),
           ),
-          body: const TabBarView(
-            children: <Widget>[InProgress(), CustomerCompleted(), Offers()],
+          body: TabBarView(
+            children: <Widget>[
+              CustomerChatPage(
+                showAppBar: false,
+              ),
+            ],
           ),
         ),
       ),

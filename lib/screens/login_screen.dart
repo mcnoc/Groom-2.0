@@ -3,6 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:groom/screens/phone_verification_screen.dart';
+import 'package:groom/states/user_state.dart';
+import 'package:groom/view_models/login_screen_view/login_screen_vm.dart';
+import 'package:groom/view_models/login_screen_view/login_screen_vm_imp.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
@@ -10,30 +14,23 @@ import '../utils/colors.dart';
 import '../widgets/login_screen_widgets/save_button.dart';
 import 'signup_screen.dart';
 
-class CustomerAuthLogin extends StatefulWidget {
-  const CustomerAuthLogin({super.key});
+class UserLoginScreen extends StatefulWidget {
+  const UserLoginScreen({super.key});
 
   @override
-  State<CustomerAuthLogin> createState() => _CustomerAuthLoginState();
+  State<UserLoginScreen> createState() => _UserLoginScreenState();
 }
 
-
-class _CustomerAuthLoginState extends State<CustomerAuthLogin> {
+class _UserLoginScreenState extends State<UserLoginScreen> {
+  UserStateController userStateController = Get.put(UserStateController());
   TextEditingController phoneController = TextEditingController();
   bool isLoading = false;
   bool isGoogle = false;
-  //Password
-  bool showPassword = false;
-  //Password Functions
-  void toggleShowPassword() {
-    setState(() {
-      showPassword = !showPassword; // Toggle the showPassword flag
-    });
-  }
-
   String? temp;
   String? n;
   PhoneNumber number = PhoneNumber(isoCode: 'US');
+  final viewModel = LoginScreenViewModelImp();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,21 +55,18 @@ class _CustomerAuthLoginState extends State<CustomerAuthLogin> {
             child: Text(
               "Glad to meet you again!, please login to use the app.",
               style: GoogleFonts.nunitoSans(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: chatColor),
+                  fontWeight: FontWeight.w500, fontSize: 14, color: chatColor),
             ),
           ),
           Flexible(child: Container()),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(18.0),
             child: Card(
               child: InternationalPhoneNumberInput(
                 hintText: "Phone Number",
                 textStyle: TextStyle(fontSize: 23),
                 onInputChanged: (PhoneNumber number) {
                   temp = number.dialCode;
-                  print(number.phoneNumber);
                   n = number.phoneNumber;
                 },
                 onInputValidated: (bool value) {},
@@ -94,11 +88,36 @@ class _CustomerAuthLoginState extends State<CustomerAuthLogin> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SaveButtonCustomer(
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SaveButtonCustomer(
                 title: "Sign In",
-                onTap: () async { }),
+                onTap: () async {
+                  if (await viewModel.checkUserPhone(
+                          context, phoneController.text) !=
+                      true) {
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text("Phone Number is not Registed"),
+                        content: Text("Please Sign Up for a new account"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Get.back(closeOverlays: true, canPop: false);
+                            },
+                            child: Text("Close"),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    viewModel.navigatePinCode(context, phoneController.text, n!);
+
+                  }
+                },
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -106,22 +125,22 @@ class _CustomerAuthLoginState extends State<CustomerAuthLogin> {
           ),
           isGoogle
               ? Center(
-              child: CircularProgressIndicator(
-                color: mainBtnColor,
-              ))
+                  child: CircularProgressIndicator(
+                  color: mainBtnColor,
+                ))
               : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SocialLoginButton(
-              backgroundColor: Colors.white,
-              borderRadius: 50,
-              buttonType: SocialLoginButtonType.google,
-              onPressed: () async {  },
-            ),
-          ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: SocialLoginButton(
+                    backgroundColor: Colors.white,
+                    borderRadius: 50,
+                    buttonType: SocialLoginButtonType.google,
+                    onPressed: () async {},
+                  ),
+                ),
           Center(
             child: GestureDetector(
               onTap: () {
-                Get.to(()=>UserSignup());
+                viewModel.navigateSignUp(context);
               },
               child: Text.rich(TextSpan(
                   text: 'Don’t have an account? ',
@@ -138,12 +157,10 @@ class _CustomerAuthLoginState extends State<CustomerAuthLogin> {
           ),
           Flexible(
               child: Container(
-                height: 10,
-              )),
+            height: 10,
+          )),
         ],
       ),
     );
   }
-
-
 }

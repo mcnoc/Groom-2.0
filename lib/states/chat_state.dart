@@ -7,14 +7,13 @@ class ChatUserStateController extends GetxController {
 
 
   var selectedUser = UserModel(
+
           email: "email",
           uid: '',
           isblocked: true,
-          rate: 12,
-          review: '',
           photoURL: '',
           contactNumber: '',
-          fullName: '', joinedOn: 0)
+          fullName: '', joinedOn: 0,dateOfBirth: 0,)
       .obs;
 }
 

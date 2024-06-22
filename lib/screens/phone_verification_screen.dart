@@ -27,7 +27,6 @@ class PinCodeVerificationScreen extends StatefulWidget {
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   final UserStateController userStateController = Get.find();
-
   TextEditingController textEditingController = TextEditingController();
   final UserFirebase userService = UserFirebase();
   StreamController<ErrorAnimationType>? errorController;
@@ -193,11 +192,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   const SizedBox(
                     height: 14,
                   ),
-                  (smscode == null)
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Container(
+                  Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 30),
                           decoration: BoxDecoration(
@@ -238,16 +233,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                     if (numberExists) {
                                       Get.offAll(() => CustomerHomeScreen());
                                     } else {
-                                      UserModel userModel = UserModel(
-                                          uid: '',
-                                          email: '',
-                                          isblocked: true,
-                                          rate: 2,
-                                          review: '',
-                                          photoURL: '',
-                                          contactNumber: '',
-                                          fullName: '',
-                                          joinedOn: 2);
+                                      UserModel userModel = userStateController.userInit.value;
+                                      userModel.uid = FirebaseAuth.instance.currentUser!.uid;
 
 
                                       try {
@@ -288,7 +275,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                 ),
                               )),
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
+                                backgroundColor: WidgetStateProperty.all(
                                     Color(0xFF2B3454)),
                               ),
                             ),
@@ -299,10 +286,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   ),
                 ],
               ),
-              Image.asset(
-                "assets/n4-element2.png",
-                height: 120,
-              ),
+
               Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
