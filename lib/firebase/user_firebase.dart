@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ import '../data_models/user_model.dart';
 
 class UserFirebase {
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> addUser(UserModel user) async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
@@ -74,7 +76,7 @@ class UserFirebase {
     try {
       final source = await _databaseReference
           .child('users')
-          .orderByChild("phoneNumber")
+          .orderByChild("contactNumber")
           .equalTo(phoneNumber)
           .once();
       var results = source.snapshot;
@@ -105,4 +107,18 @@ class UserFirebase {
       return false;
     }
   }
+
+  Future<String> uploadImage(File image,String userID) async {
+    try {
+      String fileName = 'users/$userID/imageProfile/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      Reference ref = _storage.ref().child(fileName);
+      UploadTask uploadTask = ref.putFile(image);
+      TaskSnapshot snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      print(e);
+      return '';
+    }
+  }
+
 }

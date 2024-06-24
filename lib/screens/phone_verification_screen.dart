@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../data_models/user_model.dart';
 import '../states/user_state.dart';
 import 'customer_home_screen.dart';
+import 'customer_main_dashboard.dart';
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String? phoneNumber;
@@ -84,7 +86,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               fontWeight: FontWeight.w700,
                               color: Colors.deepOrange),
                         ),
-                        Text("Please enter code sent to ",
+                        Text(
+                            "Please enter code sent to ${widget.phonenumbertext}",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
@@ -193,100 +196,102 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     height: 14,
                   ),
                   Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 30),
-                          decoration: BoxDecoration(
-                              color: Colors.red.shade300,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.red.shade200,
-                                    offset: const Offset(1, -2),
-                                    blurRadius: 5),
-                                BoxShadow(
-                                    color: Colors.red.shade200,
-                                    offset: const Offset(-1, 2),
-                                    blurRadius: 5)
-                              ]),
-                          child: ButtonTheme(
-                            height: 50,
-                            child: TextButton(
-                              onPressed: () async {
-                                // conditions for validating
-                                if (currentText.length != 6) {
-                                  errorController!.add(ErrorAnimationType
-                                      .shake); // Triggering error shake animation
-                                  setState(() => hasError = true);
-                                } else {
-                                  FirebaseAuth auth = FirebaseAuth.instance;
-                                  await auth.signInWithCredential(
-                                    PhoneAuthProvider.credential(
-                                        verificationId: smscode!,
-                                        smsCode: currentText),
-                                  );
-                                  bool numberExists =
-                                      await userService.checkIfPhoneExists(
-                                          widget.phonenumbertext);
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 30),
+                    decoration: BoxDecoration(
+                        color: Colors.red.shade300,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.red.shade200,
+                              offset: const Offset(1, -2),
+                              blurRadius: 5),
+                          BoxShadow(
+                              color: Colors.red.shade200,
+                              offset: const Offset(-1, 2),
+                              blurRadius: 5)
+                        ]),
+                    child: ButtonTheme(
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () async {
+                          // conditions for validating
+                          if (currentText.length != 6) {
+                            errorController!.add(ErrorAnimationType
+                                .shake); // Triggering error shake animation
+                            setState(() => hasError = true);
+                          } else {
+                            FirebaseAuth auth = FirebaseAuth.instance;
+                            await auth.signInWithCredential(
+                              PhoneAuthProvider.credential(
+                                  verificationId: smscode!,
+                                  smsCode: currentText),
+                            );
+                            bool numberExists = await userService
+                                .checkIfPhoneExists(widget.phonenumbertext);
 
-                                  if (FirebaseAuth.instance.currentUser !=
-                                      null) {
-                                    if (numberExists) {
-                                      Get.offAll(() => CustomerHomeScreen());
-                                    } else {
-                                      UserModel userModel = userStateController.userInit.value;
-                                      userModel.uid = FirebaseAuth.instance.currentUser!.uid;
+                            if (FirebaseAuth.instance.currentUser != null) {
+                              if (numberExists) {
+                                Get.offAll(() => CustomerMainDashboard());
+                              } else {
+                                UserModel userModel =
+                                    userStateController.userInit.value;
+                                userModel.uid =
+                                    FirebaseAuth.instance.currentUser!.uid;
 
+                                try {
+                                  var photoURL = await userService.uploadImage(
+                                      userStateController.userImage!,
+                                      FirebaseAuth.instance.currentUser!.uid);
+                                  userModel.photoURL = photoURL;
 
-                                      try {
-                                        await userService.addUser(userModel);
-                                        Get.offAll(() => CustomerHomeScreen());
-                                      } catch (e) {
-                                        Get.snackbar(
-                                            'ALERT', 'INVALID PHONE NUMBER');
+                                  await userService.addUser(userModel);
+                                  Get.offAll(() => CustomerMainDashboard());
+                                } catch (e) {
+                                  Get.snackbar('ALERT', 'INVALID PHONE NUMBER');
 
-                                        print(e);
-                                        print("Error adding user");
-                                      }
-                                    }
-                                  } else {
-                                    Get.dialog(
-                                      AlertDialog(
-                                        title: const Text('Error'),
-                                        content: const Text(
-                                            'Phone is not registered.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Get.back();
-                                            },
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
+                                  print(e);
+                                  print("Error adding user");
                                 }
-                              },
-                              child: const Center(
-                                  child: Text(
-                                "VERIFY",
-                                style: TextStyle(
-                                  color: Colors.deepOrange,
+                              }
+                            } else {
+                              Get.dialog(
+                                AlertDialog(
+                                  title: const Text('Error'),
+                                  content:
+                                      const Text('Phone is not registered.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
                                 ),
-                              )),
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all(
-                                    Color(0xFF2B3454)),
-                              ),
-                            ),
+                              );
+                            }
+                          }
+                        },
+                        child: const Center(
+                            child: Text(
+                          "VERIFY",
+                          style: TextStyle(
+                            color: Colors.deepOrange,
                           ),
+                        )),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(Color(0xFF2B3454)),
                         ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 16,
                   ),
                 ],
               ),
-
               Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),

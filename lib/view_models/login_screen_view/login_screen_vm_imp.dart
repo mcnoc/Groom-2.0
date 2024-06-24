@@ -21,7 +21,7 @@ class LoginScreenViewModelImp implements LoginScreenViewModel{
   @override
   Future<bool> checkUserPhone(BuildContext context,String phoneNumber) async {
 
-    return await userFirebase.checkIfPhoneExists(phoneNumber) ? false : true;
+    return await userFirebase.checkIfPhoneExists(phoneNumber) ? true : false;
   }
 
   @override

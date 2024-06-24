@@ -4,17 +4,19 @@ import '../data_models/chat_info_model.dart';
 import '../data_models/user_model.dart';
 
 class ChatUserStateController extends GetxController {
-
-
   var selectedUser = UserModel(
-
-          email: "email",
-          uid: '',
-          isblocked: true,
-          photoURL: '',
-          contactNumber: '',
-          fullName: '', joinedOn: 0,dateOfBirth: 0,)
-      .obs;
+    email: "email",
+    uid: '',
+    isblocked: true,
+    photoURL: '',
+    contactNumber: '',
+    fullName: '',
+    joinedOn: 0,
+    dateOfBirth: 0,
+    country: "",
+    state: "",
+    city: "",
+  ).obs;
 }
 
 class ChatInfoStateController extends GetxController {

@@ -1,19 +1,21 @@
 import 'package:groom/data_models/user_model.dart';
 
-class ClientUserModel extends UserModel {
+import 'booking_model.dart';
 
-    String clientAddress ;
+class ClientUserModel {
+  String clientAddress = '';
 
+  List<BookingModel> clientBookings = [];
 
+  ClientUserModel({required this.clientAddress, required this.clientBookings});
 
-  ClientUserModel(
-      {required super.uid,
-      required super.email,
-      required super.isblocked,
-      required super.photoURL,
-      required super.contactNumber,
-      required super.fullName,
-      required super.joinedOn,
-      required this.clientAddress, required super.dateOfBirth,
+  ClientUserModel.fromJson(Map<String,dynamic>json){
+    clientAddress = json['clientAddress'];
+    if (json['clientBookings'] != null) {
+      clientBookings = List<BookingModel>.empty(growable: true);
+      json['clientBookings'].forEach((v) {
+        clientBookings.add(BookingModel.fromJson(v));
       });
+    }
+  }
 }

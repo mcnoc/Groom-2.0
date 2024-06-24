@@ -10,6 +10,7 @@ import 'package:groom/view_models/login_screen_view/login_screen_vm_imp.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
+import '../firebase/auth_service_firebase.dart';
 import '../utils/colors.dart';
 import '../widgets/login_screen_widgets/save_button.dart';
 import 'signup_screen.dart';
@@ -30,6 +31,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   String? n;
   PhoneNumber number = PhoneNumber(isoCode: 'US');
   final viewModel = LoginScreenViewModelImp();
+  final AuthService _authService = AuthService();
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "Welcome back,",
+              "Welcome to Groom,",
               style: GoogleFonts.manrope(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -53,7 +56,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8),
             child: Text(
-              "Glad to meet you again!, please login to use the app.",
+              "Please login to use the app.",
               style: GoogleFonts.nunitoSans(
                   fontWeight: FontWeight.w500, fontSize: 14, color: chatColor),
             ),
@@ -104,7 +107,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Get.back(closeOverlays: true, canPop: false);
+                              Get.back();
                             },
                             child: Text("Close"),
                           ),
@@ -134,7 +137,21 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                     backgroundColor: Colors.white,
                     borderRadius: 50,
                     buttonType: SocialLoginButtonType.google,
-                    onPressed: () async {},
+                    onPressed: () async {
+
+                      User? user = await _authService.signInWithGoogle();
+                      if (user != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Signed in as ${user.displayName}")),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Sign-in failed")),
+                        );
+                      }
+
+
+                    },
                   ),
                 ),
           Center(

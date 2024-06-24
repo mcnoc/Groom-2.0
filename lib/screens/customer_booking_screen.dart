@@ -16,48 +16,26 @@ class CustomerBookingScreen extends StatefulWidget {
 class _CustomerBookingScreenState extends State<CustomerBookingScreen> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final shouldPop = await _showExitDialog(context);
-        return shouldPop ?? false;
-      },
-      child: DefaultTabController(
-        initialIndex: 1,
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text("Appointments"),
-            bottom: TabBar(
-              indicatorColor: mainBtnColor,
-              labelColor: mainBtnColor,
-              labelStyle: GoogleFonts.manrope(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-              unselectedLabelColor: tabUnselectedColor,
-              unselectedLabelStyle: GoogleFonts.manrope(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-              tabs: <Widget>[
-                Tab(
-                  text: "In Progress",
-                ),
-                Tab(
-                  text: "Completed",
-                ),
-                Tab(
-                  text: "Offers",
-                ),
-              ],
-            ),
-          ),
-          body: const TabBarView(
-            children: <Widget>[InProgress(), CustomerCompleted(), Offers()],
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Bookings",
+            style: TextStyle(fontSize: 19),
           ),
         ),
-      ),
+        Expanded(
+          child: SizedBox(
+            child: FutureBuilder(
+              future: null,
+              builder: (context, snapshot) {
+                return Text("data");
+              },
+            ),
+          ),
+        )
+      ],
     );
   }
 

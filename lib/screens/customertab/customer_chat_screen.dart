@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../utils/colors.dart';
 import 'customer_chat_page.dart';
+import 'customer_notification_page.dart'; // Assuming this page exists
 
 class CustomerChatScreen extends StatefulWidget {
   const CustomerChatScreen({super.key});
@@ -52,6 +52,7 @@ class _CustomerChatScreenState extends State<CustomerChatScreen> {
               CustomerChatPage(
                 showAppBar: false,
               ),
+              CustomerNotificationPage(), // Ensure this widget exists
             ],
           ),
         ),
@@ -59,25 +60,23 @@ class _CustomerChatScreenState extends State<CustomerChatScreen> {
     );
   }
 
-  _showExitDialog(BuildContext context) {
-    Future<bool?> _showExitDialog(BuildContext context) {
-      return showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Exit App'),
-          content: Text('Do you want to exit the app?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text('No'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text('Yes'),
-            ),
-          ],
-        ),
-      );
-    }
+  Future<bool?> _showExitDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Exit App'),
+        content: Text('Do you want to exit the app?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 }

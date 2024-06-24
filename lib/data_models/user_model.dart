@@ -7,6 +7,7 @@ class UserModel {
   bool isblocked;
   int joinedOn;
   int? dateOfBirth;
+  String country, state, city;
 
   UserModel({
     required this.uid,
@@ -17,18 +18,24 @@ class UserModel {
     required this.fullName,
     required this.joinedOn,
     required this.dateOfBirth,
+    required this.country,
+    required this.state,
+    required this.city,
   });
 
   Map<String, dynamic> toJson() => {
-    'fullName': fullName,
-    'isblocked': isblocked,
-    'uid': uid,
-    'email': email,
-    'contactNumber': contactNumber,
-    'photoURL': photoURL,
-    'joinedOn': joinedOn,
-    'dateOfBirth': dateOfBirth,
-  };
+        'fullName': fullName,
+        'isblocked': isblocked,
+        'uid': uid,
+        'email': email,
+        'contactNumber': contactNumber,
+        'photoURL': photoURL,
+        'joinedOn': joinedOn,
+        'dateOfBirth': dateOfBirth,
+        'country': country,
+        'state': state,
+        'city': city,
+      };
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -38,10 +45,11 @@ class UserModel {
       email: json['email'],
       photoURL: json['photoURL'],
       contactNumber: json['contactNumber'],
-      joinedOn:  json ['joinedOn'],
+      joinedOn: json['joinedOn'],
       dateOfBirth: json['dateOfBirth'],
-
+      country: json['country'],
+      state:  json['state'],
+      city:  json['city']
     );
   }
-
 }
