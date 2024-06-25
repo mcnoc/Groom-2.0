@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:groom/screens/customer_main_dashboard.dart';
 import 'package:groom/screens/phone_verification_screen.dart';
 import 'package:groom/states/user_state.dart';
 import 'package:groom/view_models/login_screen_view/login_screen_vm.dart';
@@ -144,6 +145,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Signed in as ${user.displayName}")),
                         );
+                        Get.off(()=>CustomerMainDashboard());
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Sign-in failed")),

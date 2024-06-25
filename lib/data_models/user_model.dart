@@ -1,3 +1,5 @@
+import 'package:groom/data_models/provider_user_model.dart';
+
 class UserModel {
   String uid;
   String email;
@@ -8,6 +10,7 @@ class UserModel {
   int joinedOn;
   int? dateOfBirth;
   String country, state, city;
+  ProviderUserModel? providerUserModel;
 
   UserModel({
     required this.uid,
@@ -21,6 +24,7 @@ class UserModel {
     required this.country,
     required this.state,
     required this.city,
+    this.providerUserModel,
   });
 
   Map<String, dynamic> toJson() => {
@@ -48,8 +52,8 @@ class UserModel {
       joinedOn: json['joinedOn'],
       dateOfBirth: json['dateOfBirth'],
       country: json['country'],
-      state:  json['state'],
-      city:  json['city']
+      state: json['state'],
+      city: json['city'],
     );
   }
 }

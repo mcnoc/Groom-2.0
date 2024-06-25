@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:groom/states/user_state.dart';
 
 import '../../utils/colors.dart';
 import '../../widgets/login_screen_widgets/save_button.dart';
@@ -16,8 +18,9 @@ class CustomerProfileScreen extends StatefulWidget {
   State<CustomerProfileScreen> createState() => _CustomerProfileScreenState();
 }
 
-class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
+UserStateController userStateController = Get.find();
 
+class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +36,21 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ClipOval(
+              clipBehavior: Clip.hardEdge,
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                imageUrl: userStateController.homeUser.value.photoURL,
+                width: 80,
+                height: 80,
+              ),
+            ),
             const SizedBox(
               height: 8,
             ),
             GestureDetector(
               onTap: () {
-                Get.to(()=>ProviderFormPage());
+                Get.to(() => ProviderFormPage());
               },
               child: Text(
                 "Become a Provider",
@@ -73,7 +85,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               child: Column(
                 children: [
                   ListTile(
-                    onTap: () {  },
+                    onTap: () {},
                     leading: Icon(
                       Icons.post_add,
                       color: textformColor,
@@ -111,29 +123,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {  },
-                    leading: Icon(
-                      Icons.language_outlined,
-                      color: textformColor,
-                    ),
-                    title: Text(
-                      "Change Password",
-                      style: GoogleFonts.workSans(
-                          fontWeight: FontWeight.w500, fontSize: 16),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      color: textformColor,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8),
-                    child: Divider(
-                      color: borderColor,
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () { },
+                    onTap: () {},
                     leading: Icon(
                       Icons.payment,
                       color: textformColor,
@@ -155,29 +145,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {  },
-                    leading: Icon(
-                      Icons.notifications,
-                      color: textformColor,
-                    ),
-                    title: Text(
-                      "Notifications",
-                      style: GoogleFonts.workSans(
-                          fontWeight: FontWeight.w500, fontSize: 16),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      color: textformColor,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8),
-                    child: Divider(
-                      color: borderColor,
-                    ),
-                  ),
-                  ListTile(
-                    onTap: () {    },
+                    onTap: () {},
                     leading: Icon(
                       Icons.group,
                       color: textformColor,
@@ -213,7 +181,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () { },
+                    onTap: () {},
                     leading: Icon(
                       Icons.privacy_tip,
                       color: textformColor,
@@ -235,7 +203,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () { },
+                    onTap: () {},
                     leading: Icon(
                       Icons.copy_all,
                       color: textformColor,
@@ -257,7 +225,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () { },
+                    onTap: () {},
                     leading: Icon(
                       Icons.help,
                       color: textformColor,
@@ -279,7 +247,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {  },
+                    onTap: () {},
                     leading: Icon(
                       Icons.info,
                       color: textformColor,
@@ -331,7 +299,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                       builder: (context) => const UserLoginScreen()),
-                      (Route<dynamic> route) => false,
+                  (Route<dynamic> route) => false,
                 );
               },
               child: const Text('Yes'),
@@ -341,5 +309,4 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       },
     );
   }
-
 }

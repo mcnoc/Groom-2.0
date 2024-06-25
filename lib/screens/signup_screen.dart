@@ -31,11 +31,6 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   String? cityValue;
 
   @override
-  void dispose() {
-    Get.delete<UserStateController>();
-    super.dispose();
-  }
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(

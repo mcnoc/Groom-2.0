@@ -42,7 +42,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
-                height: 200,
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
                   spacing: 12,
@@ -51,7 +50,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/haircutIcon.png"),
                           radius: 40,
                         ),
@@ -65,8 +63,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
-                          child:Image.asset("assets/nailsIcon.png"),
+                          child: Image.asset("assets/nailsIcon.png"),
                           radius: 40,
                         ),
                         Text(
@@ -79,7 +76,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/facialIcon.png"),
                           radius: 40,
                         ),
@@ -93,7 +89,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/coloringIcon.png"),
                           radius: 40,
                         ),
@@ -107,7 +102,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/spaIcon.png"),
                           radius: 40,
                         ),
@@ -121,7 +115,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/waxingIcon.png"),
                           radius: 40,
                         ),
@@ -148,7 +141,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       children: [
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
-
                           child: Image.asset("assets/massageIcon.png"),
                           radius: 40,
                         ),
@@ -162,6 +154,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
@@ -173,7 +168,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               ),
             ),
             SizedBox(
-              height: 72,
+              height: 10,
+            ),
+            SizedBox(
+              height: 100,
               width: MediaQuery.of(context).size.width,
               child: FutureBuilder(
                 future: providerUserFirebase.getAllProviders(),
@@ -187,23 +185,30 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   } else if (snapshot.hasData) {
                     var providers = snapshot.data as List<UserModel>;
                     return ListView.builder(
+                        scrollDirection: Axis.horizontal,
                         itemCount: providers.length,
                         itemBuilder: (context, index) {
                           var provider = providers[index];
 
-                          return Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.white70,
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.fill,
-                                    imageUrl: provider.photoURL,
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.lightGreenAccent,
+                                  radius: 32,
+                                  child: ClipOval(
+                                    clipBehavior: Clip.hardEdge,
+                                    child: CachedNetworkImage(
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.fill,
+                                      imageUrl: provider.photoURL,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         });
                   } else

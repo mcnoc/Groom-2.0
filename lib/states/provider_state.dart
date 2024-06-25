@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,12 +8,24 @@ import 'package:image_picker/image_picker.dart';
 import '../data_models/provider_user_model.dart';
 
 class FormController extends GetxController {
+
+
+  var selectedGroomerType = ''.obs;
+  var salonDescription = ''.obs;
+
+  var selectedImage = Rxn<Uint8List>();
+  File? userImage;
+
   var providerUser = ProviderUserModel(
+    providerType: "",
     about: '',
+    providerServices: [],
+    providerImages: [],
     workDayFrom: '',
     workDayTo: '',
     location: LatLng(0,0),
     addressLine: '',
+    salonTitle: '',
     createdOn: DateTime.now().millisecondsSinceEpoch,
   ).obs;
 

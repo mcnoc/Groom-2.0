@@ -35,6 +35,19 @@ class UserStateController extends GetxController {
     state: "",
     city: "",
   ).obs;
+  var homeUser = UserModel(
+    uid: "uid",
+    email: "email",
+    isblocked: false,
+    photoURL: "photoURL",
+    contactNumber: "",
+    fullName: "fullName",
+    dateOfBirth: 0,
+    joinedOn: 2,
+    country: "",
+    state: "",
+    city: "",
+  ).obs;
 
   void selectImage() async {
     XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:groom/screens/customer_home_screen.dart';
 import 'package:groom/screens/customer_main_dashboard.dart';
 import 'package:groom/screens/login_screen.dart';
@@ -37,6 +38,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        textTheme: TextTheme(
+
+          bodyLarge: GoogleFonts.fahkwang(),
+        )
+
       ),
       home: AuthenticationWrapper()
     );
