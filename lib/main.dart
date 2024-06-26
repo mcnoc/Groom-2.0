@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:groom/screens/customer_home_screen.dart';
 import 'package:groom/screens/customer_main_dashboard.dart';
 import 'package:groom/screens/login_screen.dart';
+import 'package:groom/screens/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase/messaging_firebase.dart';
 
@@ -14,8 +16,10 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance;
+  final prefs = await SharedPreferences.getInstance();
+  final onBoarding = prefs.getBool("onboarding")??false;
 
-  runApp(const MyApp());
+  runApp( MyApp(onboarding: onBoarding,));
 }
 
 
@@ -27,7 +31,9 @@ Future<void> initNotifications() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool onboarding;
+
+  const MyApp({super.key, this.onboarding =false});
 
   // This widget is the root of your application.
   @override
@@ -44,7 +50,7 @@ class MyApp extends StatelessWidget {
         )
 
       ),
-      home: AuthenticationWrapper()
+      home: onboarding ? AuthenticationWrapper() : OnboardingScreen()
     );
   }
 }

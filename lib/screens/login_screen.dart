@@ -3,18 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:groom/screens/customer_main_dashboard.dart';
-import 'package:groom/screens/phone_verification_screen.dart';
 import 'package:groom/states/user_state.dart';
-import 'package:groom/view_models/login_screen_view/login_screen_vm.dart';
 import 'package:groom/view_models/login_screen_view/login_screen_vm_imp.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
-
 import '../firebase/auth_service_firebase.dart';
+import '../main.dart';
 import '../utils/colors.dart';
 import '../widgets/login_screen_widgets/save_button.dart';
-import 'signup_screen.dart';
 
 class UserLoginScreen extends StatefulWidget {
   const UserLoginScreen({super.key});
@@ -145,7 +141,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Signed in as ${user.displayName}")),
                         );
-                        Get.off(()=>CustomerMainDashboard());
+                        Get.offAll(()=>AuthenticationWrapper());
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Sign-in failed")),

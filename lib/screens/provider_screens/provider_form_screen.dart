@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,13 +7,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:groom/data_models/provider_user_model.dart';
 import 'package:groom/firebase/provider_user_firebase.dart';
 import 'package:groom/screens/customer_main_dashboard.dart';
-import 'package:groom/screens/provider_main_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../states/provider_state.dart';
-import '../widgets/provider_form_widgets/provider_type_widget.dart';
-import '../widgets/provider_form_widgets/services_list_widget.dart';
-import 'google_maps_screen.dart';
+import '../../states/provider_state.dart';
+import '../../widgets/provider_form_widgets/provider_type_widget.dart';
+import '../../widgets/provider_form_widgets/services_list_widget.dart';
+import '../google_maps_screen.dart';
 
 class ProviderFormPage extends StatefulWidget {
   @override

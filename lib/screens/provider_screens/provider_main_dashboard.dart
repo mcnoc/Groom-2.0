@@ -1,50 +1,21 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groom/data_models/user_model.dart';
-import 'package:groom/firebase/user_firebase.dart';
-import 'package:groom/screens/customer_create_offer_screen.dart';
-import 'package:groom/screens/onboarding_screen.dart';
-import 'package:groom/states/user_state.dart';
-import '../utils/colors.dart';
-import 'customer_booking_screen.dart';
-import 'customer_home_screen.dart';
-import 'customertab/customer_chat_screen.dart';
-import 'customer_profile_screen.dart';
+import 'package:groom/screens/customer_main_dashboard.dart';
 
-class CustomerMainDashboard extends StatefulWidget {
-  const CustomerMainDashboard({super.key});
+import '../../consts/pages.dart';
+import '../../utils/colors.dart';
+
+class ProviderMainDashboard extends StatefulWidget {
+  const ProviderMainDashboard({super.key});
 
   @override
-  State<CustomerMainDashboard> createState() => _CustomerMainDashboardState();
+  State<ProviderMainDashboard> createState() => _ProviderMainDashboardState();
 }
 
-class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
-  UserStateController userStateController = Get.put(UserStateController());
-  UserFirebase userFirebase = UserFirebase();
+class _ProviderMainDashboardState extends State<ProviderMainDashboard> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    CustomerHomeScreen(),
-    CustomerBookingScreen(),
-    CustomerChatScreen(),
-    CustomerProfileScreen()
-  ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    userStateController;
-  }
-
-  Future<UserModel> userController() async {
-    UserModel? userModel;
-    userModel =
-        await userFirebase.getUser(FirebaseAuth.instance.currentUser!.uid);
-    userStateController.homeUser.value = userModel;
-    return userModel;
-  }
+  final List<Widget> _screens = homeScreenSize;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +25,11 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
         title: Row(
           children: [
             Image.asset(width: 40, height: 40, "assets/Groomlogof.png"),
-            IconButton(
+            TextButton(
                 onPressed: () {
-                  Get.to(() => OnboardingScreen());
+                  Get.offAll(CustomerMainDashboard());
                 },
-                icon: Icon(Icons.add))
+                child: Text("Customer"))
           ],
         ),
         actions: [
@@ -95,29 +66,10 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(100))),
         backgroundColor: mainBtnColor,
-        onPressed: () {
-          Get.to(() => CustomerCreateOfferScreen());
-        },
-        child: Icon(
-          Icons.add,
-          color: colorwhite,
-        ),
+        onPressed: () {},
+        child: Icon(Icons.add, color: colorwhite),
       ),
-      body: FutureBuilder(
-          future: userFirebase.getUser(FirebaseAuth.instance.currentUser!.uid),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            } else if (snapshot.hasData) {
-              userStateController.homeUser.value = snapshot.data!;
-              return _screens[_currentIndex];
-            }
-            return Text("No connection");
-          }),
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -152,19 +104,8 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
             label: 'Booking',
           ),
           BottomNavigationBarItem(
-              label: "Chat",
-              icon: _currentIndex == 2
-                  ? Image.asset(
-                      "assets/chatblue.png",
-                      height: 25,
-                    )
-                  : Image.asset(
-                      "assets/chatno.png",
-                      height: 25,
-                    )),
-          BottomNavigationBarItem(
             label: "Profile",
-            icon: _currentIndex == 3
+            icon: _currentIndex == 2
                 ? Image.asset(
                     "assets/profileblue.png",
                     height: 25,

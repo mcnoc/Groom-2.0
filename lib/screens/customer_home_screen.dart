@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:groom/firebase/provider_user_firebase.dart';
-import 'package:groom/screens/provider_form_screen.dart';
-
 import '../data_models/user_model.dart';
 import '../utils/colors.dart';
 
@@ -51,7 +48,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/haircutIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "HairCut",
@@ -64,7 +61,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/nailsIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Nails",
@@ -77,7 +74,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/facialIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Facial",
@@ -90,7 +87,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/coloringIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Coloring",
@@ -103,7 +100,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/spaIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Spa",
@@ -116,7 +113,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/waxingIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Waxing",
@@ -129,7 +126,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/makeupIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Make up",
@@ -142,7 +139,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/massageIcon.png"),
-                          radius: 40,
+                          radius: MediaQuery.sizeOf(context).width*0.08,
                         ),
                         Text(
                           "Message",

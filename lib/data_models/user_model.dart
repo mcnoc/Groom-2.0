@@ -9,7 +9,9 @@ class UserModel {
   bool isblocked;
   int joinedOn;
   int? dateOfBirth;
-  String country, state, city;
+  String country;
+  String state;
+  String city;
   ProviderUserModel? providerUserModel;
 
   UserModel({
@@ -20,40 +22,49 @@ class UserModel {
     required this.contactNumber,
     required this.fullName,
     required this.joinedOn,
-    required this.dateOfBirth,
+    this.dateOfBirth,
     required this.country,
     required this.state,
     required this.city,
     this.providerUserModel,
   });
 
-  Map<String, dynamic> toJson() => {
-        'fullName': fullName,
-        'isblocked': isblocked,
-        'uid': uid,
-        'email': email,
-        'contactNumber': contactNumber,
-        'photoURL': photoURL,
-        'joinedOn': joinedOn,
-        'dateOfBirth': dateOfBirth,
-        'country': country,
-        'state': state,
-        'city': city,
-      };
-
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      fullName: json['fullName'],
-      uid: json['uid'],
-      isblocked: json['isblocked'],
-      email: json['email'],
-      photoURL: json['photoURL'],
-      contactNumber: json['contactNumber'],
-      joinedOn: json['joinedOn'],
-      dateOfBirth: json['dateOfBirth'],
-      country: json['country'],
-      state: json['state'],
-      city: json['city'],
+      uid: json['uid'] ?? '',
+      email: json['email'] ?? '',
+      fullName: json['fullName'] ?? '',
+      photoURL: json['photoURL'] ?? '',
+      contactNumber: json['contactNumber'] ?? '',
+      isblocked: json['isblocked'] ?? false,
+      joinedOn: json['joinedOn'] != null ? int.parse(json['joinedOn'].toString()) : 0,
+      dateOfBirth: json['dateOfBirth'] != null ? int.parse(json['dateOfBirth'].toString()) : null,
+      country: json['country'] ?? '',
+      state: json['state'] ?? '',
+      city: json['city'] ?? '',
+      providerUserModel: json['providerUserModel'] != null && json['providerUserModel'] is Map<String, dynamic>
+          ? ProviderUserModel.fromJson(json['providerUserModel'])
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{
+      'uid': uid,
+      'email': email,
+      'fullName': fullName,
+      'photoURL': photoURL,
+      'contactNumber': contactNumber,
+      'isblocked': isblocked,
+      'joinedOn': joinedOn,
+      'dateOfBirth': dateOfBirth,
+      'country': country,
+      'state': state,
+      'city': city,
+    };
+    if (providerUserModel != null) {
+      data['providerUserModel'] = providerUserModel!.toJson();
+    }
+    return data;
   }
 }

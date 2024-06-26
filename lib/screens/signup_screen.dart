@@ -30,6 +30,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   String? stateValue;
   String? cityValue;
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

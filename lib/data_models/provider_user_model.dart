@@ -1,14 +1,14 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProviderUserModel {
-  String about = '',
-      workDayFrom = '',
-      workDayTo = '',
-      addressLine = '',
-      providerType = '';
-  int createdOn = 0;
+  String about;
+  String workDayFrom;
+  String workDayTo;
+  String addressLine;
+  String providerType;
+  int createdOn;
   String? salonTitle;
-  List<String> providerServices=[];
+  List<String> providerServices;
   LatLng? location;
   List<String>? providerImages;
 
@@ -25,36 +25,46 @@ class ProviderUserModel {
     this.salonTitle,
   });
 
-  ProviderUserModel.fromJson(Map<String, dynamic> json) {
-    about = json['about'];
-    workDayFrom = json['workDayFrom'];
-    workDayTo = json['workDayTo'];
-    providerType = json['providerType'];
-    addressLine = json['addressLine'];
-    createdOn = int.parse(json['createdOn'].toString());
-    salonTitle = json['salonTile'];
-    providerServices = List<String>.from(json['providerServices'] ?? []);
-
-    location = LatLng(
-      json['location']['latitude'],
-      json['location']['longitude'],
+  factory ProviderUserModel.fromJson(Map<String, dynamic> json) {
+    return ProviderUserModel(
+      about: json['about'] ?? '',
+      workDayFrom: json['workDayFrom'] ?? '',
+      workDayTo: json['workDayTo'] ?? '',
+      providerType: json['providerType'] ?? '',
+      addressLine: json['addressLine'] ?? '',
+      createdOn: json['createdOn'] != null ? int.parse(json['createdOn'].toString()) : 0,
+      salonTitle: json['salonTitle'],
+      providerServices: List<String>.from(json['providerServices'] ?? []),
+      providerImages: json['providerImages'] != null ? List<String>.from(json['providerImages']) : null,
+      location: json['location'] != null
+          ? LatLng(
+        json['location']['latitude'] ?? 0.0,
+        json['location']['longitude'] ?? 0.0,
+      )
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['workDayFrom'] = workDayFrom;
-    data['workDayTo'] = workDayTo;
-    data['location'] = location;
-    data['addressLine'] = addressLine;
-    data['createdOn'] = createdOn;
-    data['salonTitle'] = salonTitle;
-    data['providerServices'] = providerServices;
-    data['providerType'] = providerType;
-    data['location'] = {
-      'latitude': location?.latitude,
-      'longitude': location?.longitude,
+    final data = <String, dynamic>{
+      'about': about,
+      'workDayFrom': workDayFrom,
+      'workDayTo': workDayTo,
+      'addressLine': addressLine,
+      'createdOn': createdOn,
+      'providerType': providerType,
+      'providerServices': providerServices,
+      'salonTitle': salonTitle,
     };
+    if (providerImages != null) {
+      data['providerImages'] = providerImages;
+    }
+    if (location != null) {
+      data['location'] = {
+        'latitude': location!.latitude,
+        'longitude': location!.longitude,
+      };
+    }
     return data;
   }
 }

@@ -8,6 +8,7 @@ import 'package:groom/firebase/user_firebase.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../data_models/user_model.dart';
+import '../main.dart';
 import '../states/user_state.dart';
 import 'customer_home_screen.dart';
 import 'customer_main_dashboard.dart';
@@ -199,18 +200,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     margin: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 30),
                     decoration: BoxDecoration(
-                        color: Colors.red.shade300,
                         borderRadius: BorderRadius.circular(5),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.red.shade200,
-                              offset: const Offset(1, -2),
-                              blurRadius: 5),
-                          BoxShadow(
-                              color: Colors.red.shade200,
-                              offset: const Offset(-1, 2),
-                              blurRadius: 5)
-                        ]),
+                ),
                     child: ButtonTheme(
                       height: 50,
                       child: TextButton(
@@ -232,7 +223,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
                             if (FirebaseAuth.instance.currentUser != null) {
                               if (numberExists) {
-                                Get.offAll(() => CustomerMainDashboard());
+                                Get.offAll(() => AuthenticationWrapper());
                               } else {
                                 UserModel userModel =
                                     userStateController.userInit.value;
@@ -246,7 +237,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                   userModel.photoURL = photoURL;
 
                                   await userService.addUser(userModel);
-                                  Get.offAll(() => CustomerMainDashboard());
+                                  Get.offAll(() => AuthenticationWrapper());
                                 } catch (e) {
                                   Get.snackbar('ALERT', 'INVALID PHONE NUMBER');
 

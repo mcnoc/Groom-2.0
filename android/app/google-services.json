@@ -13,7 +13,20 @@
           "package_name": "com.app.groomapp.groom"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "920605552199-5pfqgtk5914v5ktc74phvoteaj28vhqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.groomapp.groom",
+            "certificate_hash": "5aeefe7d15c0311927172a1c32006e1eac1b4f98"
+          }
+        },
+        {
+          "client_id": "920605552199-s8hjfrgnl2v70pk8eiahk6q18l98j93p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAxKXRQNQNb2_54uOYWsLbBrIG4zaueETc"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920605552199-s8hjfrgnl2v70pk8eiahk6q18l98j93p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

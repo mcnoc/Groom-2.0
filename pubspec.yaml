@@ -76,6 +76,8 @@ dependencies:
   screenshot: any
   csc_picker: ^0.2.7
   syncfusion_flutter_calendar: ^26.1.38
+  smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
