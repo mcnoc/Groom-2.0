@@ -10,6 +10,7 @@ import '../utils/colors.dart';
 import '../widgets/login_screen_widgets/save_button.dart';
 import 'login_screen.dart';
 import 'provider_screens/provider_form_screen.dart';
+
 class CustomerProfileScreen extends StatefulWidget {
   const CustomerProfileScreen({super.key});
 
@@ -25,41 +26,58 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ClipOval(
-              clipBehavior: Clip.hardEdge,
-              child: CachedNetworkImage(
-                fit: BoxFit.fill,
-                imageUrl: userStateController.homeUser.value.photoURL,
-                width: 80,
-                height: 80,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(userStateController.homeUser.value.fullName),
-            Text(userStateController.homeUser.value.email),
-            userStateController.homeUser.value.providerUserModel == null
-                ? GestureDetector(
-                    onTap: () {
-                      Get.to(() => ProviderFormPage());
-                    },
-                    child: Text(
-                      "Become a Provider",
-                      style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w400, fontSize: 13),
-                    ),
-                  )
-                : SizedBox(
-                    height: 40,
-                    child: TextButton(
-                      onPressed: () {
-                        print(userStateController.homeUser.value.providerUserModel!.toJson());
-                        Get.to(()=>ProviderMainDashboard());
-                      },
-                      child: Text("Groomer portal"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userStateController.homeUser.value.fullName,
+                        textAlign: TextAlign.start,
+                      ),
+                      Text(userStateController.homeUser.value.email),
+                      Text(userStateController.homeUser.value.contactNumber),
+                      userStateController.homeUser.value.providerUserModel ==
+                              null
+                          ? GestureDetector(
+                              onTap: () {
+                                Get.to(() => ProviderFormPage());
+                              },
+                              child: Text(
+                                "Become a Groomer",
+                                style: GoogleFonts.dmSans(
+                                    fontWeight: FontWeight.w400, fontSize: 13),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 40,
+                              child: TextButton(
+                                onPressed: () {
+                                  print(userStateController
+                                      .homeUser.value.providerUserModel!
+                                      .toJson());
+                                  Get.to(() => ProviderMainDashboard());
+                                },
+                                child: Text("Groomer portal"),
+                              ),
+                            ),
+                    ],
+                  ),
+                  ClipOval(
+                    clipBehavior: Clip.hardEdge,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      imageUrl: userStateController.homeUser.value.photoURL,
+                      width: 80,
+                      height: 80,
                     ),
                   ),
+                ],
+              ),
+            ),
             const SizedBox(
               height: 8,
             ),

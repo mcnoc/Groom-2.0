@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:groom/data_models/user_model.dart';
 import 'package:groom/firebase/user_firebase.dart';
@@ -54,32 +55,39 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
         title: Row(
           children: [
             Image.asset(width: 40, height: 40, "assets/Groomlogof.png"),
-            IconButton(
-                onPressed: () {
-                  Get.to(() => OnboardingScreen());
-                },
-                icon: Icon(Icons.add))
           ],
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(
+                () => CustomerCreateOfferScreen(),
+              );
+            },
+            icon: FaIcon(FontAwesomeIcons.plus),
+          ),
           Stack(
             children: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.chat),
+                icon: FaIcon(
+                  FontAwesomeIcons.message,
+                  color: Colors.blueGrey,
+                ),
               ),
               Positioned(
-                  right: 6,
-                  top: 10,
-                  child:
-                      Icon(color: Colors.green, size: 15, Icons.closed_caption))
+                right: 6,
+                top: 6,
+                child:
+                    Icon(color: Colors.green, size: 15, Icons.closed_caption),
+              ),
             ],
           ),
           Stack(
             children: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.notifications),
+                icon: FaIcon(FontAwesomeIcons.bell),
               ),
               Positioned(
                   right: 6,
@@ -89,19 +97,6 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
             ],
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(100))),
-        backgroundColor: mainBtnColor,
-        onPressed: () {
-          Get.to(() => CustomerCreateOfferScreen());
-        },
-        child: Icon(
-          Icons.add,
-          color: colorwhite,
-        ),
       ),
       body: FutureBuilder(
           future: userFirebase.getUser(FirebaseAuth.instance.currentUser!.uid),

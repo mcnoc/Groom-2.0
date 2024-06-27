@@ -80,24 +80,24 @@ class OnboardingCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.offAll(AuthenticationWrapper());
-                    },
-                    child: Text(
-                      "Skip",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(fontSize: 14, color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     GestureDetector(
+              //       onTap: () {
+              //         Get.offAll(AuthenticationWrapper());
+              //       },
+              //       child: Text(
+              //         "Skip",
+              //         textAlign: TextAlign.end,
+              //         style: TextStyle(fontSize: 14, color: Colors.white),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 20,
+              //     )
+              //   ],
+              // ),
               SizedBox(
                 height: 120,
               ),

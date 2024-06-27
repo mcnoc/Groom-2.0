@@ -74,10 +74,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.2,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 6,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 6,
                     child: Column(
                       children: [
                         Text(
@@ -88,7 +94,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               color: Colors.deepOrange),
                         ),
                         Text(
-                            "Please enter code sent to ${widget.phonenumbertext}",
+                            "Please enter code sent to ${widget
+                                .phonenumbertext}",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
@@ -196,12 +203,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   const SizedBox(
                     height: 14,
                   ),
-                  Container(
+                  (smscode == null)
+                      ? const Center(child: CircularProgressIndicator())
+                      : Container(
                     margin: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 30),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                     child: ButtonTheme(
                       height: 50,
                       child: TextButton(
@@ -250,7 +259,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                                 AlertDialog(
                                   title: const Text('Error'),
                                   content:
-                                      const Text('Phone is not registered.'),
+                                  const Text('Phone is not registered.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -266,14 +275,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         },
                         child: const Center(
                             child: Text(
-                          "VERIFY",
-                          style: TextStyle(
-                            color: Colors.deepOrange,
-                          ),
-                        )),
+                              "VERIFY",
+                              style: TextStyle(
+                                color: Colors.deepOrange,
+                              ),
+                            )),
                         style: ButtonStyle(
                           backgroundColor:
-                              WidgetStateProperty.all(Color(0xFF2B3454)),
+                          WidgetStateProperty.all(Color(0xFF2B3454)),
                         ),
                       ),
                     ),
@@ -285,11 +294,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               ),
               Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
                   Row(
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.height * 0.01,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.01,
                       ),
                       IconButton(
                         onPressed: () {

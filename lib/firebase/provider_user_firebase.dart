@@ -26,20 +26,22 @@ class ProviderUserFirebase {
   }
 
   Future<List<UserModel>> getAllProviders() async {
-    List<UserModel> provideList = [];
-    var source = await _auth
-        .ref("users")
-        .once();
+    List<UserModel> providerList = [];
+    var source = await _auth.ref("users").once();
     var snapshot = source.snapshot;
     UserModel? userModel;
+
     if (snapshot.value != null) {
       snapshot.children.forEach((element) {
-        userModel = UserModel.fromJson(jsonDecode(jsonEncode(element.value)));
-        userModel!.uid = element.key!;
-        provideList.add(userModel!);
+        var userJson = jsonDecode(jsonEncode(element.value));
+        if (userJson['providerUserModel'] != null) {
+          userModel = UserModel.fromJson(userJson);
+          userModel!.uid = element.key!;
+          providerList.add(userModel!);
+        }
       });
     }
-    return provideList;
+    return providerList;
   }
 
   Future<String> uploadImage(File image,String userID) async {

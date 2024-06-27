@@ -164,7 +164,7 @@ class _ProviderFormPageState extends State<ProviderFormPage> {
                       SizedBox(height: 16),
                       Text('Provider Images'),
                       SizedBox(height: 16),
-                      Row(
+                      Wrap(
                         children: [
                           for (var image in _images)
                             Padding(

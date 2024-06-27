@@ -78,6 +78,9 @@ dependencies:
   syncfusion_flutter_calendar: ^26.1.38
   smooth_page_indicator: ^1.1.0
   shared_preferences: ^2.2.3
+  easy_date_timeline: ^1.0.3
+  carousel_slider: ^4.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

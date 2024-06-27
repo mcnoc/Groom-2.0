@@ -3,50 +3,48 @@ import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:groom/data_models/customer_offer_model.dart';
 
-class CustomerOfferFirebase {
+import '../data_models/provider_service_model.dart';
+
+class ProviderServiceFirebase{
   var _ref = FirebaseDatabase.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
 
-  Future<bool> writeOfferToFirebase(
-      String offerId, CustomerOfferModel customerOfferModel) async {
+  Future<bool> writeServiceToFirebase(
+      String serviceId, ProviderServiceModel providerServiceModel) async {
     try {
       await _ref
-          .ref("customerOffers")
-          .child(offerId)
-          .set(customerOfferModel.toJson());
+          .ref("providerServices")
+          .child(serviceId)
+          .set(providerServiceModel.toJson());
     } catch (e) {
       print(e);
     }
 
     return false;
-  }
-
-  Future<List<CustomerOfferModel>> getAllOffers() async {
-    List<CustomerOfferModel> lst = [];
-    var source = await _ref.ref("customerOffers").once();
+  }  Future<List<ProviderServiceModel>> getAllServices() async {
+    List<ProviderServiceModel> lst = [];
+    var source = await _ref.ref("providerServices").once();
     var data = source.snapshot;
 
     if (data.value != null) {
       data.children.forEach((e) {
-        CustomerOfferModel? customerOfferModel = CustomerOfferModel.fromJson(
+        ProviderServiceModel? providerServiceModel = ProviderServiceModel.fromJson(
           jsonDecode(
             jsonEncode(e.value),
           ),
         );
-        lst.add(customerOfferModel);
+        lst.add(providerServiceModel);
       });
     }
 
     return lst;
   }
-
-  Future<List<CustomerOfferModel>> getAllOffersByUserId(String userId) async {
-    List<CustomerOfferModel> lst = [];
+  Future<List<ProviderServiceModel>> getAllServicesByUserId(String userId) async {
+    List<ProviderServiceModel> lst = [];
     var source = await _ref
-        .ref("customerOffers")
+        .ref("providerServices")
         .orderByChild("userId")
         .equalTo(userId)
         .once();
@@ -54,12 +52,12 @@ class CustomerOfferFirebase {
 
     if (data.value != null) {
       data.children.forEach((e) {
-        CustomerOfferModel? customerOfferModel = CustomerOfferModel.fromJson(
+        ProviderServiceModel? providerServiceModel = ProviderServiceModel.fromJson(
           jsonDecode(
             jsonEncode(e.value),
           ),
         );
-        lst.add(customerOfferModel);
+        lst.add(providerServiceModel);
       });
     }
 
@@ -67,7 +65,7 @@ class CustomerOfferFirebase {
   }
   Future<String> uploadImage(File image,String userID) async {
     try {
-      String fileName = 'users/$userID/customerOfferImages/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      String fileName = 'users/$userID/providerServiceImages/${DateTime.now().millisecondsSinceEpoch}.jpg';
       Reference ref = _storage.ref().child(fileName);
       UploadTask uploadTask = ref.putFile(image);
       TaskSnapshot snapshot = await uploadTask;

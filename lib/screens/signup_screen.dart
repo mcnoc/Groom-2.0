@@ -208,6 +208,10 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         title: "SIGNUP",
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
+
+
+
+                            /// add email duplication to form validator
                             // Custom validations
                             if (_userStateController.selectedImage.value ==
                                 null) {

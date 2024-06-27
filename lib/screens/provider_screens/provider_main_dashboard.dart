@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:groom/screens/customer_main_dashboard.dart';
+import 'package:groom/screens/provider_screens/provider_create_service_screen.dart';
 
 import '../../consts/pages.dart';
 import '../../utils/colors.dart';
+import '../customer_create_offer_screen.dart';
 
 class ProviderMainDashboard extends StatefulWidget {
   const ProviderMainDashboard({super.key});
@@ -27,12 +30,20 @@ class _ProviderMainDashboardState extends State<ProviderMainDashboard> {
             Image.asset(width: 40, height: 40, "assets/Groomlogof.png"),
             TextButton(
                 onPressed: () {
-                  Get.offAll(CustomerMainDashboard());
+                  Get.offAll(()=>CustomerMainDashboard());
                 },
                 child: Text("Customer"))
           ],
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(
+                    () => ProviderCreateServiceScreen(),
+              );
+            },
+            icon: FaIcon(FontAwesomeIcons.plus),
+          ),
           Stack(
             children: [
               IconButton(
@@ -60,14 +71,6 @@ class _ProviderMainDashboardState extends State<ProviderMainDashboard> {
             ],
           ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(100))),
-        backgroundColor: mainBtnColor,
-        onPressed: () {},
-        child: Icon(Icons.add, color: colorwhite),
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

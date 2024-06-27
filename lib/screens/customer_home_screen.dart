@@ -1,7 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:groom/data_models/provider_service_model.dart';
+import 'package:groom/firebase/provider_service_firebase.dart';
 import 'package:groom/firebase/provider_user_firebase.dart';
+import 'package:groom/screens/provider_screens/provider_display_screen.dart';
+import 'package:groom/states/provider_service_state.dart';
 import '../data_models/user_model.dart';
 import '../utils/colors.dart';
 
@@ -14,6 +19,8 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   ProviderUserFirebase providerUserFirebase = ProviderUserFirebase();
+  ProviderServiceFirebase providerServiceFirebase = ProviderServiceFirebase();
+  ProviderServiceState providerServiceState = Get.put(ProviderServiceState());
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +32,39 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset("assets/banner.png"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width * 0.82,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue.shade200),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Search...',
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.search,
+                          size: 24,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
@@ -48,7 +88,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/haircutIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "HairCut",
@@ -61,7 +101,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/nailsIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Nails",
@@ -74,7 +114,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/facialIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Facial",
@@ -87,7 +127,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/coloringIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Coloring",
@@ -100,7 +140,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/spaIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Spa",
@@ -113,7 +153,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/waxingIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Waxing",
@@ -126,7 +166,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/makeupIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
                           "Make up",
@@ -139,10 +179,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.blueGrey.shade50,
                           child: Image.asset("assets/massageIcon.png"),
-                          radius: MediaQuery.sizeOf(context).width*0.08,
+                          radius: MediaQuery.sizeOf(context).width * 0.08,
                         ),
                         Text(
-                          "Message",
+                          "Massage",
                           style: TextStyle(fontSize: 17),
                         ),
                       ],
@@ -191,16 +231,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.lightGreenAccent,
-                                  radius: 32,
-                                  child: ClipOval(
-                                    clipBehavior: Clip.hardEdge,
-                                    child: CachedNetworkImage(
-                                      width: 60,
-                                      height: 60,
-                                      fit: BoxFit.fill,
-                                      imageUrl: provider.photoURL,
+                                GestureDetector(
+                                  onTap: () {
+                                    providerServiceState.selectedProvider.value
+                                             =
+                                        provider;
+                                    Get.to(() => ProviderDisplayScreen());
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.blueGrey.shade50,
+                                    radius: 32,
+                                    child: ClipOval(
+                                      clipBehavior: Clip.hardEdge,
+                                      child: CachedNetworkImage(
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.fill,
+                                        imageUrl: provider.photoURL,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -226,6 +274,53 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             SizedBox(
               height: 400,
               width: MediaQuery.of(context).size.width,
+              child: FutureBuilder(
+                future: providerServiceFirebase.getAllServices(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else if (snapshot.hasData) {
+                    var services = snapshot.data as List<ProviderServiceModel>;
+                    return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: services.length,
+                        itemBuilder: (context, index) {
+                          var service = services[index];
+
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Container(),
+                                GestureDetector(
+                                  onTap: (){
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.blueGrey.shade50,
+                                    radius: 32,
+                                    child: ClipOval(
+                                      clipBehavior: Clip.hardEdge,
+                                      child: CachedNetworkImage(
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.fill,
+                                        imageUrl: service.serviceImages!.first,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  } else
+                    return Text("no data found");
+                },
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

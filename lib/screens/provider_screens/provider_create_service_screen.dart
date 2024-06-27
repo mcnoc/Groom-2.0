@@ -2,35 +2,42 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:groom/data_models/provider_service_model.dart';
+import 'package:groom/firebase/provider_service_firebase.dart';
 import 'package:groom/states/customer_offer_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../data_models/customer_offer_model.dart';
-import '../firebase/customer_offer_firebase.dart';
-import 'google_maps_screen.dart';
+import '../google_maps_screen.dart';
 
-class CustomerCreateOfferScreen extends StatefulWidget {
-  const CustomerCreateOfferScreen({super.key});
+class ProviderCreateServiceScreen extends StatefulWidget {
+  const ProviderCreateServiceScreen({super.key});
 
   @override
-  State<CustomerCreateOfferScreen> createState() =>
-      _CustomerCreateOfferScreenState();
+  State<ProviderCreateServiceScreen> createState() =>
+      _ProviderCreateServiceScreenState();
 }
 
-List<String> services = ["Hair Style", "Nails", "Facial","coloring","spa","Waxing", "Makeup","Massage"];
+List<String> services = [
+  "Hair Style",
+  "Nails",
+  "Facial",
+  "coloring",
+  "spa",
+  "Waxing",
+  "Makeup",
+  "Massage"
+];
 List<String> priceRange = ["100-500", "500-1000", "1000-2000"];
 
-class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
-  CustomerOfferStateController customerOfferState =
-      CustomerOfferStateController();
+class _ProviderCreateServiceScreenState
+    extends State<ProviderCreateServiceScreen> {
   LatLng? selectedLocation;
   Uint8List? mapScreenshot;
   String? selectedService;
@@ -38,9 +45,11 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
   DateTime? selectedDateTime;
   List<File> _images = [];
   bool _isLoading = false;
+  int price = 0;
 
-  final _formKey = GlobalKey<FormState>();
+  final _ProviderformKey = GlobalKey<FormState>();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -70,32 +79,39 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
   }
 
   Future<void> _saveCustomerServiceModel() async {
-    if (_formKey.currentState!.validate()) {
+    if (_ProviderformKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
+      int? servicePrice = int.tryParse(_priceController.text);
+      if (servicePrice == null) {
+        setState(() {
+          _isLoading = false;
+        });
+        Get.snackbar("Error", "Invalid price value");
+        return;
+      }
       List<String> imageUrls = [];
       for (File image in _images) {
-        String imageUrl = await CustomerOfferFirebase()
+        String imageUrl = await ProviderServiceFirebase()
             .uploadImage(image, FirebaseAuth.instance.currentUser!.uid);
         if (imageUrl.isNotEmpty) {
           imageUrls.add(imageUrl);
         }
       }
 
-      final customerService = CustomerOfferModel(
+      final providerService = ProviderServiceModel(
         userId: FirebaseAuth.instance.currentUser!.uid,
-        offerId: generateProjectId(),
+        serviceId: generateProjectId(),
         description: _descriptionController.text,
-        serviceType: selectedService,
-        priceRange: selectedPriceRange,
-        dateTime: selectedDateTime,
+        serviceType: selectedService!,
         location: selectedLocation,
-        offerImages: imageUrls,
+        servicePrice: servicePrice,
+        serviceImages: imageUrls,
       );
 
-      await CustomerOfferFirebase()
-          .writeOfferToFirebase(customerService.offerId, customerService);
+      await ProviderServiceFirebase()
+          .writeServiceToFirebase(providerService.serviceId, providerService);
 
       setState(() {
         _isLoading = false;
@@ -109,89 +125,18 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create a service offer"),
+        title: Text("Create a Groomer Service"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Form(
-            key: _formKey,
+            key: _ProviderformKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Select date & time :",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue.shade200),
-                        borderRadius: BorderRadius.circular(9)),
-                    width: 350,
-                    height: 120,
-                    child: Center(
-                      child: SfCalendar(
-                        onSelectionChanged: (CalendarSelectionDetails details) {
-                          setState(() {
-                            selectedDateTime = details.date;
-                          });
-                        },
-                        scheduleViewSettings: ScheduleViewSettings(
-                          monthHeaderSettings: MonthHeaderSettings(),
-                          dayHeaderSettings: DayHeaderSettings(),
-                        ),
-                        showNavigationArrow: true,
-                        view: CalendarView.timelineDay,
-                        viewHeaderStyle: ViewHeaderStyle(
-                          dayTextStyle: TextStyle(fontSize: 16),
-                        ),
-                        timeSlotViewSettings:
-                            TimeSlotViewSettings(dayFormat: "E"),
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 20),
-                EasyDateTimeLine(
-                  initialDate: DateTime.now(),
-                  onDateChange: (selectedDate) {
-                    //`selectedDate` the new date selected.
-                    setState(() {
-                      selectedDate = selectedDateTime!;
-                      print(selectedDateTime!);
-                    });
-                  },
-                  headerProps: const EasyHeaderProps(
-                    monthPickerType: MonthPickerType.switcher,
-                    dateFormatter: DateFormatter.fullDateDMY(),
-                  ),
-                  dayProps: const EasyDayProps(
-                    dayStructure: DayStructure.dayStrDayNum,
-                    activeDayStyle: DayStyle(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xff3371FF),
-                            Color(0xff8426D6),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -221,34 +166,6 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Price Range :",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                  child: DropdownButtonFormField<String>(
-                    value: selectedPriceRange,
-                    hint: Text("Select Price Range"),
-                    isExpanded: true,
-                    items: priceRange.map((String range) {
-                      return DropdownMenuItem<String>(
-                        value: range,
-                        child: Text(range),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedPriceRange = newValue;
-                      });
-                    },
-                    validator: (value) =>
-                        value == null ? 'Please select a price range' : null,
-                  ),
-                ),
                 SizedBox(height: 12),
                 Text(
                   "Offer description :",
@@ -271,6 +188,27 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                           : null,
                     ),
                   ),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Service Price :",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _priceController,
+                      ),
+                    ),
+                    FaIcon(FontAwesomeIcons.dollarSign),
+                  ],
                 ),
                 SizedBox(height: 12),
                 Padding(
@@ -370,9 +308,7 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                         backgroundColor:
                             WidgetStateProperty.all(Colors.blue.shade200),
                       ),
-                         onPressed: _isLoading ? null : _saveCustomerServiceModel,
-
-
+                      onPressed: _isLoading ? null : _saveCustomerServiceModel,
                       child: SizedBox(
                         width: MediaQuery.sizeOf(context).width * 0.3,
                         height: 40,
