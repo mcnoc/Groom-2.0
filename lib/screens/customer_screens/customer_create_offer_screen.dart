@@ -13,9 +13,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../data_models/customer_offer_model.dart';
-import '../firebase/customer_offer_firebase.dart';
-import 'google_maps_screen.dart';
+import '../../data_models/customer_offer_model.dart';
+import '../../firebase/customer_offer_firebase.dart';
+import '../google_maps_screen.dart';
 
 class CustomerCreateOfferScreen extends StatefulWidget {
   const CustomerCreateOfferScreen({super.key});
@@ -38,6 +38,7 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
   DateTime? selectedDateTime;
   List<File> _images = [];
   bool _isLoading = false;
+  bool _depositAccept =false;
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _descriptionController = TextEditingController();
@@ -90,17 +91,16 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
         serviceType: selectedService,
         priceRange: selectedPriceRange,
         dateTime: selectedDateTime,
+        deposit: _depositAccept,
         location: selectedLocation,
         offerImages: imageUrls,
       );
 
       await CustomerOfferFirebase()
           .writeOfferToFirebase(customerService.offerId, customerService);
-
       setState(() {
         _isLoading = false;
       });
-
       Get.back();
     }
   }
@@ -109,7 +109,7 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create a service offer"),
+        title: Text("Service offer"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -161,36 +161,36 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                EasyDateTimeLine(
-                  initialDate: DateTime.now(),
-                  onDateChange: (selectedDate) {
-                    //`selectedDate` the new date selected.
-                    setState(() {
-                      selectedDate = selectedDateTime!;
-                      print(selectedDateTime!);
-                    });
-                  },
-                  headerProps: const EasyHeaderProps(
-                    monthPickerType: MonthPickerType.switcher,
-                    dateFormatter: DateFormatter.fullDateDMY(),
-                  ),
-                  dayProps: const EasyDayProps(
-                    dayStructure: DayStructure.dayStrDayNum,
-                    activeDayStyle: DayStyle(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xff3371FF),
-                            Color(0xff8426D6),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // EasyDateTimeLine(
+                //   initialDate: DateTime.now(),
+                //   onDateChange: (selectedDate) {
+                //     //`selectedDate` the new date selected.
+                //     setState(() {
+                //       selectedDate = selectedDateTime!;
+                //       print(selectedDateTime!);
+                //     });
+                //   },
+                //   headerProps: const EasyHeaderProps(
+                //     monthPickerType: MonthPickerType.switcher,
+                //     dateFormatter: DateFormatter.fullDateDMY(),
+                //   ),
+                //   dayProps: const EasyDayProps(
+                //     dayStructure: DayStructure.dayStrDayNum,
+                //     activeDayStyle: DayStyle(
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                //         gradient: LinearGradient(
+                //           begin: Alignment.topCenter,
+                //           end: Alignment.bottomCenter,
+                //           colors: [
+                //             Color(0xff3371FF),
+                //             Color(0xff8426D6),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -220,7 +220,7 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                         value == null ? 'Please select a service' : null,
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -249,6 +249,12 @@ class _CustomerCreateOfferScreenState extends State<CustomerCreateOfferScreen> {
                         value == null ? 'Please select a price range' : null,
                   ),
                 ),
+                SizedBox(height: 12),
+                Row(children: [Checkbox(value: _depositAccept, onChanged: (newBool){
+                  setState(() {
+                    _depositAccept = newBool!;
+                  });
+                } ), Text("Accept deposit")],),
                 SizedBox(height: 12),
                 Text(
                   "Offer description :",

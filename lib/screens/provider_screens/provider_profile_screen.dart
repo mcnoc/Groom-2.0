@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:groom/screens/provider_screens/provider_myservice_screen.dart';
 
 import '../../utils/colors.dart';
-import '../customer_support_screen.dart';
+import '../customer_screens/customer_support_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

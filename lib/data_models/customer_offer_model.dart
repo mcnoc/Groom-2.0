@@ -9,6 +9,7 @@ class CustomerOfferModel {
   DateTime? dateTime;
   LatLng? location;
   List<String>? offerImages;
+  bool? deposit;
 
   CustomerOfferModel({
     required this.userId,
@@ -19,15 +20,18 @@ class CustomerOfferModel {
     this.priceRange,
     this.dateTime,
     this.offerImages,
+    this.deposit,
   });
 
   factory CustomerOfferModel.fromJson(Map<String, dynamic> json) {
     return CustomerOfferModel(
       userId: json['userId'],
+
       offerId: json['offerId'],
       description: json['description'],
       serviceType: json['serviceType'],
       priceRange: json['priceRange'],
+      deposit: json['deposit'],
       offerImages: json['offerImages'] != null
           ? List<String>.from(json['offerImages'])
           : null,
@@ -49,6 +53,7 @@ class CustomerOfferModel {
       'description': description,
       'serviceType': serviceType,
       'priceRange': priceRange,
+      'deposit' : deposit,
       'dateTime': dateTime?.toIso8601String(),
     };
 

@@ -1,45 +1,26 @@
 {
   "project_info": {
-    "project_number": "920605552199",
-    "firebase_url": "https://groom202406-1-default-rtdb.firebaseio.com",
-    "project_id": "groom202406-1",
-    "storage_bucket": "groom202406-1.appspot.com"
+    "project_number": "597837975870",
+    "project_id": "groom202406-web",
+    "storage_bucket": "groom202406-web.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:920605552199:android:9582c673d5750ebc7fcb62",
+        "mobilesdk_app_id": "1:597837975870:android:9c27415bc8d98304031c6f",
         "android_client_info": {
           "package_name": "com.app.groomapp.groom"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "920605552199-5pfqgtk5914v5ktc74phvoteaj28vhqt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.groomapp.groom",
-            "certificate_hash": "5aeefe7d15c0311927172a1c32006e1eac1b4f98"
-          }
-        },
-        {
-          "client_id": "920605552199-s8hjfrgnl2v70pk8eiahk6q18l98j93p.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAxKXRQNQNb2_54uOYWsLbBrIG4zaueETc"
+          "current_key": "AIzaSyCOoFYPymKaFmlpZojMukcoyEER3W_c8YY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "920605552199-s8hjfrgnl2v70pk8eiahk6q18l98j93p.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 
 import '../data_models/user_model.dart';
 
-
 class UserFirebase {
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -19,7 +18,7 @@ class UserFirebase {
 
     if (currentUser != null) {
       final DatabaseReference userRef =
-      FirebaseDatabase.instance.ref().child('users').child(currentUser.uid);
+          FirebaseDatabase.instance.ref().child('users').child(currentUser.uid);
       await userRef.set(user.toJson());
     } else {
       print(
@@ -108,9 +107,10 @@ class UserFirebase {
     }
   }
 
-  Future<String> uploadImage(File image,String userID) async {
+  Future<String> uploadImage(File image, String userID) async {
     try {
-      String fileName = 'users/$userID/imageProfile/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      String fileName =
+          'users/$userID/imageProfile/${DateTime.now().millisecondsSinceEpoch}.jpg';
       Reference ref = _storage.ref().child(fileName);
       UploadTask uploadTask = ref.putFile(image);
       TaskSnapshot snapshot = await uploadTask;
@@ -121,4 +121,59 @@ class UserFirebase {
     }
   }
 
+  Future<bool> addServiceToFavorites(String userId, String serviceId) async {
+    try {
+      var source = await _databaseReference.ref
+          .child('users')
+          .child(userId)
+          .child("favorites")
+          .once();
+
+      var data = source.snapshot;
+      List<String> currentFavorites = [];
+      if (data.value != null) {
+        currentFavorites = List<String>.from(data as List<dynamic>);
+        if (!currentFavorites.contains(serviceId)) {
+          currentFavorites.add(serviceId);
+        }
+        await _databaseReference.ref
+            .child('users')
+            .child(userId)
+            .child('favorites')
+            .set(currentFavorites);
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+  Future<bool> removeServiceToFavorites(String userId, String serviceId) async {
+    try {
+      var source = await _databaseReference.ref
+          .child('users')
+          .child(userId)
+          .child("favorites")
+          .once();
+
+      var data = source.snapshot;
+      List<String> currentFavorites = [];
+      if (data.value != null) {
+        currentFavorites = List<String>.from(data as List<dynamic>);
+        if (!currentFavorites.contains(serviceId)) {
+          currentFavorites.remove(serviceId);
+        }
+        await _databaseReference.ref
+            .child('users')
+            .child(userId)
+            .child('favorites')
+            .set(currentFavorites);
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
 }

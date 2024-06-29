@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../utils/colors.dart';
 import '../utils/image_util.dart';
 import '../widgets/signup_screen_widgets/button.dart';
-import 'customer_main_dashboard.dart';
+import 'customer_screens/customer_main_dashboard.dart';
 
 class AddComplaint extends StatefulWidget {
   const AddComplaint({super.key});

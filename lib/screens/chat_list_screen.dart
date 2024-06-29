@@ -24,47 +24,26 @@ class _ChatListScreenState extends State<ChatListScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    Get.deleteAll();
 
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(
+            "Messages",
+            style: TextStyle(
+                fontSize: 25,
+                color: Color(0xFFFF6222),
+                fontWeight: FontWeight.w600),
+          ),
+        ),
 
         body: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(18),
-                ),
-                color: Color(0xFF2B3454),
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Messages",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Color(0xFFFF6222),
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+
             FutureBuilder(
               future:
               getChatListByUserId(FirebaseAuth.instance.currentUser!.uid),
@@ -80,30 +59,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   if (chats.isNotEmpty) {
                     return Column(
                       children: [
-                        Container(
-                          width: double.infinity,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(18),),
-                            color: Color(0xFF2B3454),
-                          ),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "Messages",
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Color(0xFFFF6222),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+
                         Expanded(
                           // Wrap the ListView.builder with an Expanded widget
                           child: ListView.builder(
@@ -164,12 +120,12 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                                         ? Text(
                                                       " ${chat.friendName.capitalizeFirst}  ",
                                                       style: TextStyle(
-                                                          fontSize: 18),
+                                                          fontSize: 12),
                                                     )
                                                         : Text(
                                                       "${chat.createName.capitalizeFirst}",
                                                       style: TextStyle(
-                                                          fontSize: 21),
+                                                          fontSize: 12),
                                                     ),
                                                   ),
                                                   Padding(
@@ -221,33 +177,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 );
               },
             ),
-            Image.asset(
-              "assets/n4-element2.png",
-              height: 120,
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.01,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 5,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _scaffoldKey.currentState!.openDrawer();
-                        },
-                        icon: Icon(
-                          Icons.menu,
-                          size: 40,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              ],
-            ),
+
+
           ],
         ),
       ),

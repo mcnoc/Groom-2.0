@@ -10,7 +10,6 @@ import '../states/user_state.dart';
 import '../utils/colors.dart';
 import '../widgets/signup_screen_widgets/button.dart';
 import 'package:csc_picker/csc_picker.dart';
-import '../widgets/signup_screen_widgets/textforminputfield.dart';
 
 class UserSignupScreen extends StatefulWidget {
   const UserSignupScreen({super.key});

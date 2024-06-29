@@ -6,6 +6,7 @@ import 'package:groom/data_models/provider_user_model.dart';
 import 'package:groom/data_models/user_model.dart';
 
 class ProviderUserFirebase {
+
   var _auth = FirebaseDatabase.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
@@ -56,4 +57,6 @@ class ProviderUserFirebase {
       return '';
     }
   }
+
+
 }

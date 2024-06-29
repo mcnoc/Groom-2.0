@@ -4,13 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:groom/data_models/user_model.dart';
 import 'package:groom/firebase/user_firebase.dart';
-import 'package:groom/screens/customer_create_offer_screen.dart';
+import 'package:groom/screens/chat_list_screen.dart';
+import 'package:groom/screens/customer_screens/customer_create_offer_screen.dart';
+import 'package:groom/screens/customer_screens/service_search_screen.dart';
 import 'package:groom/screens/onboarding_screen.dart';
 import 'package:groom/states/user_state.dart';
-import '../utils/colors.dart';
+import '../../utils/colors.dart';
 import 'customer_booking_screen.dart';
 import 'customer_home_screen.dart';
-import 'customertab/customer_chat_screen.dart';
+import '../customertab/customer_chat_screen.dart';
 import 'customer_profile_screen.dart';
 
 class CustomerMainDashboard extends StatefulWidget {
@@ -28,7 +30,7 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
   final List<Widget> _screens = [
     CustomerHomeScreen(),
     CustomerBookingScreen(),
-    CustomerChatScreen(),
+    SearchScreen(),
     CustomerProfileScreen()
   ];
 
@@ -69,7 +71,9 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
           Stack(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => ChatListScreen());
+                },
                 icon: FaIcon(
                   FontAwesomeIcons.message,
                   color: Colors.blueGrey,
@@ -147,16 +151,9 @@ class _CustomerMainDashboardState extends State<CustomerMainDashboard> {
             label: 'Booking',
           ),
           BottomNavigationBarItem(
-              label: "Chat",
-              icon: _currentIndex == 2
-                  ? Image.asset(
-                      "assets/chatblue.png",
-                      height: 25,
-                    )
-                  : Image.asset(
-                      "assets/chatno.png",
-                      height: 25,
-                    )),
+            label: "Search",
+            icon: _currentIndex == 2 ? Icon(Icons.search) : Icon(Icons.search),
+          ),
           BottomNavigationBarItem(
             label: "Profile",
             icon: _currentIndex == 3

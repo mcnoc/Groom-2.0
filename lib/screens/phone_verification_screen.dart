@@ -10,8 +10,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import '../data_models/user_model.dart';
 import '../main.dart';
 import '../states/user_state.dart';
-import 'customer_home_screen.dart';
-import 'customer_main_dashboard.dart';
+import 'customer_screens/customer_home_screen.dart';
+import 'customer_screens/customer_main_dashboard.dart';
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String? phoneNumber;
@@ -49,7 +49,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   void dispose() {
     errorController!.close();
-
     super.dispose();
   }
 

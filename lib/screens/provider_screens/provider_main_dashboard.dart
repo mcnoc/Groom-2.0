@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:groom/screens/customer_main_dashboard.dart';
+import 'package:groom/screens/customer_screens/customer_main_dashboard.dart';
 import 'package:groom/screens/provider_screens/provider_create_service_screen.dart';
 
 import '../../consts/pages.dart';
 import '../../utils/colors.dart';
-import '../customer_create_offer_screen.dart';
+import '../customer_screens/customer_create_offer_screen.dart';
 
 class ProviderMainDashboard extends StatefulWidget {
   const ProviderMainDashboard({super.key});

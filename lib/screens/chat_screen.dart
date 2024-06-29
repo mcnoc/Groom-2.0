@@ -46,20 +46,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: FutureBuilder(
-          future: firebaseService.getUser(widget.friendId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            } else if (snapshot.hasData) {
-              var friendUser = snapshot.data;
-              return Scaffold(
-                key: _scaffoldKey,
-                body: Stack(
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: FutureBuilder(
+            future: firebaseService.getUser(widget.friendId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Text("Error: ${snapshot.error}");
+              } else if (snapshot.hasData) {
+                var friendUser = snapshot.data;
+                return Stack(
                   children: [
                     Column(
                       children: [
@@ -81,10 +81,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 120,
+                                    width: 10,
                                   ),
                                   Text(
-                                    "${friendUser?.fullName}  ${friendUser?.fullName}",
+                                    "${friendUser?.fullName} ",
                                     style: TextStyle(
                                         fontSize: 25,
                                         color: Colors.deepOrange,
@@ -225,31 +225,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      "assets/n4-element2.png",
-                      height: 120,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 30,
-                            )),
-                      ],
-                    ),
                   ],
-                ),
-              );
-            }
-            return Text("no data ");
-          }),
+                );
+              }
+              return Text("no data ");
+            }),
+      ),
     );
   }
 

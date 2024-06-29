@@ -40,7 +40,7 @@ class _ProviderCreateServiceScreenState
     extends State<ProviderCreateServiceScreen> {
   LatLng? selectedLocation;
   Uint8List? mapScreenshot;
-  String? selectedService;
+  String? selectedService ;
   String? selectedPriceRange;
   DateTime? selectedDateTime;
   List<File> _images = [];
@@ -158,7 +158,7 @@ class _ProviderCreateServiceScreenState
                     }).toList(),
                     onChanged: (String? newValue) {
                       setState(() {
-                        selectedService = newValue;
+                        selectedService = newValue!;
                       });
                     },
                     validator: (value) =>
@@ -168,7 +168,7 @@ class _ProviderCreateServiceScreenState
                 SizedBox(height: 20),
                 SizedBox(height: 12),
                 Text(
-                  "Offer description :",
+                  "Service description :",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 12),

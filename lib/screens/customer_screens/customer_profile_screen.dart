@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:groom/screens/provider_screens/provider_main_dashboard.dart';
 import 'package:groom/states/user_state.dart';
-import '../utils/colors.dart';
-import '../widgets/login_screen_widgets/save_button.dart';
-import 'login_screen.dart';
-import 'provider_screens/provider_form_screen.dart';
+import '../../utils/colors.dart';
+import '../../widgets/login_screen_widgets/save_button.dart';
+import '../login_screen.dart';
+import '../provider_screens/provider_form_screen.dart';
 
 class CustomerProfileScreen extends StatefulWidget {
   const CustomerProfileScreen({super.key});

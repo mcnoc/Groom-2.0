@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../utils/colors.dart';
-import 'customertab/customer_completed.dart';
-import 'customertab/in_progress.dart';
-import 'customertab/offers.dart';
+import '../../utils/colors.dart';
+import '../customertab/customer_completed.dart';
+import '../customertab/in_progress.dart';
+import '../customertab/offers.dart';
 
 class CustomerBookingScreen extends StatefulWidget {
   const CustomerBookingScreen({super.key});

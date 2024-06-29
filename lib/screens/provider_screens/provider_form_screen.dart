@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:groom/data_models/provider_user_model.dart';
 import 'package:groom/firebase/provider_user_firebase.dart';
-import 'package:groom/screens/customer_main_dashboard.dart';
+import 'package:groom/screens/customer_screens/customer_main_dashboard.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../states/provider_state.dart';

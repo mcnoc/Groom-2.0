@@ -34,52 +34,53 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  bubble_tab_indicator: ^0.1.6
+  bubble: ^1.2.1
   cupertino_icons: ^1.0.6
+  cached_network_image: ^3.3.1
+  csc_picker: ^0.2.7
+  carousel_slider: ^4.2.1
+  cloud_firestore: ^5.0.1
+  dio: ^5.4.1
+  easy_date_timeline: ^1.0.3
+  email_validator: ^2.1.17
+  easy_localization: ^3.0.3
+  file_picker: ^8.0.5
+  firebase_ui_auth: ^1.9.1
   firebase_auth: ^5.1.0
   firebase_core: ^3.1.0
   firebase_database: ^11.0.1
   firebase_storage: ^12.0.1
   firebase_messaging: ^15.0.1
-  cloud_firestore: ^5.0.1
+  firebase_messaging_web: ^3.6.6
+  flutter_rating_bar: ^4.0.1
+  flutter_riverpod: ^2.4.4
+  flutter_launcher_icons: ^0.13.1
+  flutter_downloader: ^1.11.6
   font_awesome_flutter: ^10.1.0
+  form_validator: ^2.1.0
+  geocoding: ^3.0.0
+  geolocator: ^12.0.0
   get: ^4.6.1
   get_storage: ^2.0.3
-  cached_network_image: ^3.3.1
-  pin_code_fields: ^8.0.1
-  form_validator: ^2.1.0
-  lottie: ^3.1.0
-  firebase_messaging_web: ^3.6.6
-  permission_handler: ^11.3.0
-  flutter_launcher_icons: ^0.13.1
-  flutter_riverpod: ^2.4.4
-  bubble_tab_indicator: ^0.1.6
-  bubble: ^1.2.1
-  flutter_downloader: ^1.11.6
-  firebase_ui_auth: ^1.9.1
-  dio: ^5.4.1
+  google_fonts: ^6.1.0
+  google_sign_in: ^6.2.1
+  google_maps_flutter: ^2.6.1
+  intl_phone_number_input: ^0.7.3+1
   image_picker: ^1.0.4
-  file_picker: ^8.0.5
-  easy_localization: ^3.0.3
+  pin_code_fields: ^8.0.1
+  lottie: ^3.1.0
+  permission_handler: ^11.3.0
   page_transition: ^2.1.0
   provider: ^6.1.2
   path_provider: ^2.1.2
-  google_fonts: ^6.1.0
-  intl_phone_number_input: ^0.7.3+1
-  email_validator: ^2.1.17
   social_button_flutter: ^0.0.6
   social_login_buttons: ^1.0.7
-  flutter_rating_bar: ^4.0.1
-  geocoding: ^3.0.0
-  geolocator: ^12.0.0
-  google_maps_flutter: ^2.6.1
-  google_sign_in: ^6.2.1
   screenshot: any
-  csc_picker: ^0.2.7
   syncfusion_flutter_calendar: ^26.1.38
   smooth_page_indicator: ^1.1.0
   shared_preferences: ^2.2.3
-  easy_date_timeline: ^1.0.3
-  carousel_slider: ^4.2.1
+  skeletonizer: any
 
 dev_dependencies:
   flutter_test:

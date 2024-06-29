@@ -20,10 +20,10 @@ class ProviderServiceModel {
 
   factory ProviderServiceModel.fromJson(Map<String, dynamic> json) {
     return ProviderServiceModel(
-      userId: "userId",
-      serviceId: "serviceId",
-      description: "description",
-      serviceType: "serviceType",
+      userId: json["userId"],
+      serviceId: json["serviceId"],
+      description: json["description"],
+      serviceType: json["serviceType"],
       servicePrice: int.parse(json["servicePrice"].toString()),
       serviceImages: json['serviceImages'] != null
           ? List<String>.from(json['serviceImages'])
@@ -40,7 +40,7 @@ class ProviderServiceModel {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{
       'userId': userId,
-      'offerId': serviceId,
+      'serviceId': serviceId,
       'description': description,
       'serviceType': serviceType,
       'servicePrice': servicePrice,
